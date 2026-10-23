@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Letter for Sterrey night❤️</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Georgia, serif;
+}
+
+body{
+    background:linear-gradient(135deg,#ffd6e7,#fff5fa);
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    overflow:hidden;
+    position:relative;
+}
+
+/* Floating Hearts */
+
+.heart{
+    position:absolute;
+    color:#ff4f8b;
+    pointer-events:none;
+    opacity:.8;
+    animation:float linear infinite;
+}
+
+@keyframes float{
+    from{
+        transform:translateY(110vh);
+    }
+    to{
+        transform:translateY(-120vh);
+    }
+}
+
+/* Letter */
+
+.letter{
+    width:650px;
+    max-width:90%;
+    max-height:85vh;
+    overflow-y:auto;
+
+    background:#fffdf9;
+    border:2px solid #f6bfd2;
+    border-radius:15px;
+
+    padding:60px;
+
+    box-shadow:0 20px 50px rgba(0,0,0,.2);
+    animation:showLetter 1s ease;
+    z-index:10;
+}
+
+@keyframes showLetter{
+    from{
+        opacity:0;
+        transform:translateY(40px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+h1{
+    text-align:center;
+    color:#d63384;
+    margin-bottom:40px;
+    font-size:42px;
+}
+
+p{
+    width:100%;
+    max-width:500px;
+    margin:25px auto;
+    font-size:21px;
+    line-height:2;
+    color:#444;
+    text-align:justify;
+    word-break:break-word;
+}
+
+.signature{
+    margin-top:50px;
+    text-align:right;
+    color:#d63384;
+    font-size:28px;
+    font-weight:bold;
+}
+
+.letter::-webkit-scrollbar{
+    width:8px;
+}
+
+.letter::-webkit-scrollbar-thumb{
+    background:#ff8fb3;
+    border-radius:10px;
+}
+
+.letter::-webkit-scrollbar-track{
+    background:#ffe8f0;
+}
+
+</style>
+
+</head>
+<body oncontextmenu="return false;">
+
+<!-- Overlay -->
+<div id="overlay" class="overlay"></div>
+
+
+<!-- Background Music -->
+<audio id="bgMusic" loop>
+    <source src="music/YU.mp3" type="audio/mpeg">
+</audio>
+
+<!-- Letter -->
+<div class="letter">
+
+    <h1>❤️ Dear Love ❤️</h1>
+
+    <p id="letterText"></p>
+
+    <div class="signature">
+        With Love,<br>
+        ❤️ Lynn
+    </div>
+
+</div>
+
+<script>
+// Authentication
+
+if (sessionStorage.getItem("authenticated") !== "true") {
+    window.location.replace("index.html");
+}
+
+// Background Music
+
+const music = document.getElementById("bgMusic");
+
+const playMusic = () => {
+    music.play().catch(() => {});
+    ["click", "touchstart", "keydown"].forEach(event =>
+        document.removeEventListener(event, playMusic)
+    );
+};
+
+window.addEventListener("load", playMusic);
+
+["click", "touchstart", "keydown"].forEach(event =>
+    document.addEventListener(event, playMusic)
+);
+
+// Love Letters
+
+const letters = [
+
+`Hi Love ❤️,
+
+Happy birthday, loveee! First of all, I just want to say how thankful I am that I met you. I’m so grateful na nandito ka, na nakilala kita, and that I get to be part of your life. Today is your special day, and I hope you know how much you mean to me. You deserve all the happiness, love, peace, and beautiful things this world has to offer because you have such a special place in my heart. Love, I want you to know na I’m always proud of you, even sa mga bagay na hindi mo nakukwento sa akin. I’m proud of you for making it through every difficult day, for choosing to keep going kahit minsan pagod ka na, and for being strong even when things aren’t going the way you want them to. I know life isn’t always easy, and there are days when you feel tired, lost, or overwhelmed, but I hope you never forget how capable and special you are. You don’t always have to be strong, love. You can rest, you can cry, and you can take your time. You don’t have to figure everything out all at once. I’m wishing you a life that feels lighter, a heart that feels at peace, and days that give you more reasons to smile. Thank you for being you, love. Thank you for the little things you do, for the moments we share, for the laughter, and for all the memories we’ve created together. You may not realize it, but even the simplest things you do can make me happy. Sometimes, it’s not even about the grand gestures or the sweetest words. It’s the way you make me feel loved, the comfort I find in your presence, and the happiness I feel just knowing that I have you. You make ordinary moments feel special, and I’m so happy that I get to experience those moments with you. On your birthday, I wish that all your silent prayers will slowly turn into beautiful answered prayers. I hope you achieve all the dreams you’re working so hard for, and I hope life gives you opportunities that will help you become the person you want to be. I pray for your good health, your safety, your peace of mind, and your happiness.
+
+Sana palagi kang gabayan ni Lord sa lahat ng decisions mo, and sana ilayo ka niya sa mga bagay at taong hindi makakabuti sa’yo. I hope you’ll always have the courage to pursue what makes you happy and the strength to overcome whatever challenges come your way. And love, please don’t be too hard on yourself, okay? You don’t have to prove your worth to anyone. You are already enough, even on the days when you feel like you’re not doing your best. You deserve to be appreciated, understood, respected, and loved without having to beg for it. I hope you see yourself the way I see you, someone who is precious, someone worth choosing, and someone who deserves genuine happiness. If there are days when you start doubting yourself, I hope you’ll remember that there is someone who believes in you and is always rooting for you.
+As your love, one of the things I wish for you is that you’ll never feel alone when life gets difficult. I want you to know that you can always share your thoughts with me, whether you’re happy, sad, stressed, or simply having one of those days when you don’t feel like talking much. You don’t always have to explain everything perfectly for me to care about you. I want to understand you, listen to you, and learn more about the things that make you who you are.
+
+I want to celebrate your achievements, comfort you when things get hard, and remind you of your worth whenever you forget it. I may not always know the right words to say, but please know that my care for you is genuine. I know that we’re not perfect, and I know that there may be times when we misunderstand each other or struggle to express what we really feel. But I hope that as we continue to grow, we also learn how to understand each other better, communicate more openly, and love each other more patiently. I don’t expect everything to be perfect, love. What matters to me is that we continue to learn, grow, and make an effort to understand one another. I want us to create beautiful memories, share more laughter, and experience more birthdays together. I want to see you grow into the person you’ve always dreamed of becoming, and I hope I can be there to witness all the beautiful things that are waiting for you. If I could give you anything today, I would give you the ability to see just how much happiness you bring into my life. I would let you see yourself through my eyes, even just for a moment, so you could understand why you’re so special to me. You might think you’re just being yourself, but that’s exactly what makes you precious to me. I don’t need you to be someone else just to make me happy. I appreciate you for who you are, including the little things you sometimes think are flaws. You don’t have to be perfect to be loved, love, because my appreciation for you goes beyond the things you can see about yourself. Happy birthday again, my love! I hope today reminds you of how loved and appreciated you are. I hope you get to smile genuinely, laugh until your stomach hurts, eat your favorite food, and enjoy every little thing that makes you happy. You deserve to feel special not only today but every single day. And even when your birthday is over, I hope you continue to feel the same love, warmth, and happiness that you deserve.
+`,
+];
+
+document.getElementById("letterText").innerHTML =
+    letters[Math.floor(Math.random() * letters.length)]
+        .trim()
+        .replace(/\n/g, "<br><br>");
+
+// Floating Hearts
+
+for (let i = 0; i < 35; i++) {
+
+    const heart = document.createElement("div");
+
+    heart.className = "heart";
+    heart.innerHTML = "❤";
+
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.fontSize = (12 + Math.random() * 22) + "px";
+    heart.style.animationDuration = (5 + Math.random() * 5) + "s";
+    heart.style.animationDelay = Math.random() * 5 + "s";
+
+    document.body.appendChild(heart);
+
+}
+
+// Hamburger Menu
+
+const menuBtn = document.getElementById("menuBtn");
+const sideMenu = document.getElementById("sideMenu");
+const overlay = document.getElementById("overlay");
+const closeMenu = document.getElementById("closeMenu");
+
+function openMenu() {
+    sideMenu.classList.add("open");
+    overlay.classList.add("show");
+}
+
+function closeSideMenu() {
+    sideMenu.classList.remove("open");
+    overlay.classList.remove("show");
+}
+
+menuBtn.addEventListener("click", openMenu);
+closeMenu.addEventListener("click", closeSideMenu);
+overlay.addEventListener("click", closeSideMenu);
+
+// Direct Logout
+
+document.getElementById("logoutBtn").addEventListener("click", function (e) {
+
+    e.preventDefault();
+
+    // Remove authentication session
+    sessionStorage.removeItem("authenticated");
+
+    // Clear browser history state
+    history.pushState(null, "", "index.html");
+
+    // Redirect to login page
+    window.location.replace("index.html");
+
+});
+</script>
+
+</body>
+</html>

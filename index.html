@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hi Sterrey</title>
+
+    <style>
+        /* Global Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        html, body {
+            width: 100%;
+            min-height: 100%;
+        }
+
+        body {
+            background: linear-gradient(135deg, #ffd6e7, #fff5fa);
+            overflow-x: hidden;
+        }
+
+        /* Login Page */
+        .container {
+            width: 100%;
+            min-height: 100vh;
+        }
+
+        .login {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            gap: 15px;
+        }
+
+        .avatar {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            background: #fff;
+            padding: 6px;
+            border: 3px solid #333;
+            object-fit: cover;
+            object-position: center 20%;
+        }
+
+        .input-box {
+            display: flex;
+            align-items: center;
+        }
+
+        .input-box input {
+            width: 320px;
+            height: 40px;
+            border: 2px solid #333;
+            padding: 10px;
+            font-size: 18px;
+            outline: none;
+            border-radius: 5px;
+        }
+
+        button {
+            width: 320px;
+            height: 45px;
+            border: none;
+            border-radius: 5px;
+            background: #970033;
+            color: #fff;
+            font-size: 30px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover:not(:disabled) {
+            background: #b3003f;
+        }
+
+        button:disabled {
+            background: #666;
+            cursor: not-allowed;
+        }
+
+        .warning {
+            width: 320px;
+            min-height: 22px;
+            color: #d60000;
+            font-size: 15px;
+            font-weight: bold;
+            text-align: center;
+            margin-top: -5px;
+        }
+
+        /* Floating Hearts */
+        .heart {
+            position: fixed;
+            left: 0;
+            top: 0;
+            pointer-events: none;
+            user-select: none;
+            z-index: 99999;
+            font-size: 18px;
+            will-change: transform, opacity;
+        }
+
+        /* Responsive */
+        @media (max-width: 480px) {
+            .avatar {
+                width: 120px;
+                height: 120px;
+            }
+            .input-box input, button, .warning {
+                width: 260px;
+            }
+            .input-box input { font-size: 16px; }
+            button { font-size: 26px; }
+            .warning { font-size: 14px; }
+        }
+    </style>
+</head>
+<body oncontextmenu="return false;">
+
+<audio id="lockSound" loop preload="auto">
+    <source src="music/police.mp3" type="audio/mpeg">
+</audio>
+
+<div class="container" oncontextmenu="return false;">
+    <div class="login">
+        <!-- Avatar -->
+        <img src="ImagesWithKai/L1.png" id="avatar" class="avatar" alt="image">
+
+        <!-- Password -->
+        <div class="input-box">
+            <input type="password" id="password" placeholder="Password" autocomplete="off">
+        </div>
+
+        <!-- Login -->
+        <button id="loginBtn">Login</button>
+
+        <!-- Warning Message -->
+        <p id="warningText" class="warning"></p>
+    </div>
+</div>
+
+<script>
+// Configuration
+const CONFIG = {
+    password: "PND",
+    maxAttempts: 5,
+    lockTime: 5 * 60 * 1000
+};
+
+const STORAGE = {
+    attempts: "loginAttempts",
+    lockUntil: "loginLockUntil"
+};
+
+const IMAGES = {
+    neutral: "GiveIMG/L1.png",
+    typing: "GiveIMG/L2.png",
+    wrong: "GiveIMG/L3.png",
+    locked: "GiveIMG/L4.png"
+};
+
+// Elements
+const password = document.getElementById("password");
+const loginBtn = document.getElementById("loginBtn");
+const avatar = document.getElementById("avatar");
+const warning = document.getElementById("warningText");
+const lockSound = document.getElementById("lockSound");
+
+// State
+let attempts = Number(localStorage.getItem(STORAGE.attempts)) || 0;
+let countdownTimer = null;
+
+// Helper Functions
+const getLockUntil = () => Number(localStorage.getItem(STORAGE.lockUntil));
+const isLocked = () => getLockUntil() > Date.now();
+const saveAttempts = () => localStorage.setItem(STORAGE.attempts, attempts);
+const setAvatar = state => avatar.src = IMAGES[state];
+const setWarning = text => warning.textContent = text;
+
+// Lock Sound Handling
+function playLockSound() {
+    if (!lockSound.paused) return;
+    lockSound.loop = true;
+    lockSound.currentTime = 0;
+    lockSound.play().catch(() => {});
+}
+
+function stopLockSound() {
+    lockSound.pause();
+    lockSound.currentTime = 0;
+}
+
+// Login State Management
+function resetLogin() {
+    stopLockSound();
+    attempts = 0;
+    saveAttempts();
+    localStorage.removeItem(STORAGE.lockUntil);
+
+    password.disabled = false;
+    loginBtn.disabled = false;
+    loginBtn.textContent = "Login";
+
+    setAvatar("neutral");
+    setWarning("");
+}
+
+function lockLogin() {
+    localStorage.setItem(STORAGE.lockUntil, Date.now() + CONFIG.lockTime);
+    playLockSound();
+    updateLoginState();
+}
+
+function updateLoginState() {
+    clearTimeout(countdownTimer);
+    attempts = Number(localStorage.getItem(STORAGE.attempts)) || 0;
+
+    if (isLocked()) {
+        password.disabled = true;
+        loginBtn.disabled = true;
+        loginBtn.textContent = "LOCKED";
+        setAvatar("locked");
+        playLockSound();
+
+        const remaining = Math.ceil((getLockUntil() - Date.now()) / 1000);
+        const minutes = Math.floor(remaining / 60);
+        const seconds = String(remaining % 60).padStart(2, "0");
+
+        setWarning(`Too many attempts. Try again in ${minutes}:${seconds}`);
+        countdownTimer = setTimeout(updateLoginState, 1000);
+        return;
+    }
+
+    if (getLockUntil()) {
+        resetLogin();
+        return;
+    }
+
+    password.disabled = false;
+    loginBtn.disabled = false;
+    loginBtn.textContent = "Login";
+
+    setAvatar(password.value.trim() ? "typing" : "neutral");
+    setWarning(attempts ? `Incorrect password. Remaining attempts: ${CONFIG.maxAttempts - attempts}` : "");
+}
+
+updateLoginState();
+
+// Avatar Interactions
+password.addEventListener("input", () => {
+    if (isLocked()) {
+        setAvatar("locked");
+        return;
+    }
+    setAvatar(password.value.trim() ? "typing" : "neutral");
+});
+
+// Authentication Function
+function login() {
+    if (isLocked()) {
+        updateLoginState();
+        return;
+    }
+
+    if (password.value === CONFIG.password) {
+        sessionStorage.setItem("authenticated", "true");
+        resetLogin();
+        location.replace("ster.html");
+        return;
+    }
+
+    attempts++;
+    saveAttempts();
+    password.value = "";
+    setAvatar("wrong");
+
+    if (attempts >= CONFIG.maxAttempts) {
+        lockLogin();
+    } else {
+        setWarning(`Incorrect password. Remaining attempts: ${CONFIG.maxAttempts - attempts}`);
+    }
+
+    setTimeout(() => {
+        if (!isLocked()) {
+            setAvatar("neutral");
+        }
+        password.focus();
+    }, 1500);
+}
+
+loginBtn.addEventListener("click", login);
+password.addEventListener("keydown", e => {
+    if (e.key === "Enter") login();
+});
+
+// Floating Hearts Cursor Effect
+const colors = ["#ff0055", "#ff4d88", "#ff66b2", "#ff1493", "#ff5c8a", "#ff3366"];
+let lastHeart = 0;
+
+document.addEventListener("mousemove", e => {
+    if (Date.now() - lastHeart < 35) return;
+    lastHeart = Date.now();
+
+    const heart = document.createElement("div");
+    heart.className = "heart";
+    heart.textContent = "❤";
+    heart.style.left = `${e.clientX}px`;
+    heart.style.top = `${e.clientY}px`;
+    heart.style.fontSize = `${12 + Math.random() * 18}px`;
+    heart.style.color = colors[Math.floor(Math.random() * colors.length)];
+
+    document.body.appendChild(heart);
+    const offset = (Math.random() - 0.5) * 80;
+
+    heart.animate(
+        [
+            { transform: "translate(-50%, -50%) scale(1)", opacity: 1 },
+            { transform: `translate(calc(-50% + ${offset}px), -140px) scale(2) rotate(${Math.random() * 60 - 30}deg)`, opacity: 0 }
+        ],
+        { duration: 1400, easing: "ease-out" }
+    );
+
+    setTimeout(() => heart.remove(), 1400);
+});
+</script>
+
+</body>
+</html>
